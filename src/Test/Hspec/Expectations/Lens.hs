@@ -18,6 +18,8 @@ import Test.HUnit (assertBool)
 
 infixl 1 `shouldHave`, `shouldNotHave`, `shouldView`, `shouldList`, `through`
 
+-- | @x \`shouldHave\` l@ sets the expectation that 'Fold' @l@ has
+-- non-zero number of targets in @x@
 shouldHave
   :: Show s
   => s
@@ -27,6 +29,8 @@ x `shouldHave` f = assertBool errorMsg (has f x)
   where
     errorMsg = unwords ["Supplied Fold has zero targets for", show x]
 
+-- | @x \`shouldNotHave\` l@ sets the expectation that 'Fold' @l@
+-- has zero targets in @x@
 shouldNotHave
   :: Show s
   => s
@@ -36,6 +40,8 @@ x `shouldNotHave` f = assertBool errorMsg (hasn't f x)
   where
     errorMsg = unwords ["Supplied Fold has targets for", show x]
 
+-- | @x \`shouldView\` y \`through\` l@ sets the expectation that
+-- you can see @y@ in @x@ though a 'Getter' @l@
 shouldView
   :: (Show s, Show a, Eq a)
   => s
@@ -46,6 +52,8 @@ shouldView
   where
     errorMsg = unwords ["Can't view", show y, "from", show x, "through Supplied Getter"]
 
+-- | @x \`shouldList\` ys \`through\` l@ sets the expectation that
+-- you can list @ys@ in @x@ though a 'Fold' @l@
 shouldList
   :: (Show s, Show a, Eq a)
   => s
@@ -55,6 +63,14 @@ shouldList
 (x `shouldList` y) l = assertBool errorMsg (toListOf l x == y)
   where
     errorMsg = unwords ["Can't list", show y, "from", show x, "through Supplied Getter"]
+
+-- | A helper to fight parentheses
+--
+-- @
+-- through ≡ id
+-- @
+through :: a -> a
+through = id
 
 has :: ((a -> Const Any b) -> s -> Const Any t) -> s -> Bool
 has l = getAny . foldMapOf l (\_ -> Any True)
@@ -70,6 +86,3 @@ toListOf l s = appEndo (foldMapOf l (\x -> Endo (x :)) s) []
 
 foldMapOf :: ((a -> Const m b) -> s -> Const n t) -> (a -> m) -> s -> n
 foldMapOf l f = getConst . l (Const . f)
-
-through :: a -> a
-through = id
