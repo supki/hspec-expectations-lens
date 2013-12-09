@@ -58,10 +58,10 @@ shouldView
 shouldPreview
   :: (Show s, Show a, Eq a)
   => s
-  -> Maybe a
+  -> a
   -> ((a -> Const (First a) a) -> s -> Const (First a) s)
   -> Expectation
-(x `shouldPreview` y) l = assertBool errorMsg (preview l x == y)
+(x `shouldPreview` y) l = assertBool errorMsg (preview l x == Just y)
   where
     errorMsg = unwords ["Can't preview", show y, "from", show x, "through supplied Fold"]
 

@@ -73,19 +73,19 @@ spec = do
   describe "shouldPreview" $ do
     it "previews structure through a Lens" $
       shouldHold $
-        (1, ((2, 3), 4)) `shouldPreview` Just 3 `through` _2._1._2
+        (1, ((2, 3), 4)) `shouldPreview` 3 `through` _2._1._2
 
     it "previews structure through a Getter" $
       shouldHold $
-        (1, ((2, 3), 4)) `shouldPreview` Just 3 `through` to snd.to fst.to snd
+        (1, ((2, 3), 4)) `shouldPreview` 3 `through` to snd.to fst.to snd
 
     it "previews structure through a Fold" $
       shouldHold $
-        Just (Right (Just 7)) `shouldPreview` Just 7 `through` folded._Right.folded
+        Just (Right (Just 7)) `shouldPreview` 7 `through` folded._Right.folded
 
     it "previews structure through a Traversal" $
       shouldHold $
-        Just (Right (Just 7)) `shouldPreview` Just 7 `through` traverse._Right.traverse
+        Just (Right (Just 7)) `shouldPreview` 7 `through` traverse._Right.traverse
 
   describe "shouldList" $ do
     it "lists structure through a Lens" $
