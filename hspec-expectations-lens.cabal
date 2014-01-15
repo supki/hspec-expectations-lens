@@ -31,6 +31,7 @@ library
   build-depends:
       base                    == 4.*
     , hspec-expectations
+    , lens                    >= 3.9
     , HUnit
   exposed-modules:
     Test.Hspec.Expectations.Lens
