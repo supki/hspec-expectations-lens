@@ -13,6 +13,7 @@ import Control.Lens
 import Data.Monoid (Any(..), All(..), First(..), Endo(..))
 import Test.Hspec.Expectations (Expectation)
 import Test.HUnit (assertBool)
+import Text.Printf (printf)
 
 
 infixl 1 `shouldHave`, `shouldNotHave`, `shouldView`, `shouldPreview`, `shouldList`, `through`
@@ -29,9 +30,9 @@ infixl 1 `shouldHave`, `shouldNotHave`, `shouldView`, `shouldPreview`, `shouldLi
 -- shouldHave :: 'Show' s => s -> 'Prism''     s a -> 'Expectation'
 -- @
 shouldHave :: Show s => s -> Getting Any s a -> Expectation
-x `shouldHave` f = assertBool errorMsg (has f x)
+x `shouldHave` f = assertBool msg (has f x)
  where
-  errorMsg = unwords ["Supplied Fold has zero targets for", show x]
+  msg = printf "Supplied Fold has zero targets for %s" (show x)
 
 -- | @x \`shouldNotHave\` l@ sets the expectation that 'Fold' @l@
 -- has zero targets in @x@
@@ -45,9 +46,9 @@ x `shouldHave` f = assertBool errorMsg (has f x)
 -- shouldNotHave :: 'Show' s => s -> 'Prism''     s a -> 'Expectation'
 -- @
 shouldNotHave :: Show s => s -> Getting All s a -> Expectation
-x `shouldNotHave` f = assertBool errorMsg (hasn't f x)
+x `shouldNotHave` f = assertBool msg (hasn't f x)
  where
-  errorMsg = unwords ["Supplied Fold has targets for", show x]
+  msg = printf "Supplied Fold has non-zero targets for %s" (show x)
 
 -- | @x \`shouldView\` y \`through\` l@ sets the expectation that
 -- you can see @y@ in @x@ though a 'Getter' @l@
@@ -61,9 +62,9 @@ x `shouldNotHave` f = assertBool errorMsg (hasn't f x)
 -- shouldView :: ('Data.Monoid.Monoid' m, 'Show' s, 'Show' a, 'Eq' a) => s -> a -> 'Prism''     s m -> 'Expectation'
 -- @
 shouldView :: (Show s, Show a, Eq a) => s -> a -> Getting a s a -> Expectation
-(x `shouldView` y) l = assertBool errorMsg (view l x == y)
+(x `shouldView` y) l = assertBool msg (view l x == y)
  where
-  errorMsg = unwords ["Can't view", show y, "from", show x, "through supplied Getter"]
+  msg = printf "Can't view %s from %s through supplied Getter" (show y) (show x)
 
 -- | @x \`shouldPreview\` y \`through\` l@ sets the expectation that
 -- you can list @y@ in @x@ first though a 'Fold' @l@
@@ -77,9 +78,9 @@ shouldView :: (Show s, Show a, Eq a) => s -> a -> Getting a s a -> Expectation
 -- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) => s -> a -> 'Prism''     s a -> 'Expectation'
 -- @
 shouldPreview :: (Show s, Show a, Eq a) => s -> a -> Getting (First a) s a -> Expectation
-(x `shouldPreview` y) l = assertBool errorMsg (preview l x == Just y)
+(x `shouldPreview` y) l = assertBool msg (preview l x == Just y)
  where
-  errorMsg = unwords ["Can't preview", show y, "from", show x, "through supplied Fold"]
+  msg = printf "Can't preview %s from %s through supplied Fold" (show y) (show x)
 
 -- | @x \`shouldList\` ys \`through\` l@ sets the expectation that
 -- you can list @ys@ in @x@ though a 'Fold' @l@
@@ -93,9 +94,9 @@ shouldPreview :: (Show s, Show a, Eq a) => s -> a -> Getting (First a) s a -> Ex
 -- shouldList :: ('Show' s, 'Show' a, 'Eq' a) => s -> [a] -> 'Prism''     s a -> 'Expectation'
 -- @
 shouldList :: (Show s, Show a, Eq a) => s -> [a] -> Getting (Endo [a]) s a -> Expectation
-(x `shouldList` y) l = assertBool errorMsg (toListOf l x == y)
+(x `shouldList` y) l = assertBool msg (toListOf l x == y)
  where
-  errorMsg = unwords ["Can't list", show y, "from", show x, "through supplied Fold"]
+  msg = printf "Can't list %s from %s through supplied Fold" (show y) (show x)
 
 -- | A helper to fight parentheses
 --
