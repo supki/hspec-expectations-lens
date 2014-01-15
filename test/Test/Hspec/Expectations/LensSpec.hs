@@ -2,8 +2,10 @@
 module Test.Hspec.Expectations.LensSpec (spec) where
 
 import Control.Lens
+import Control.Exception
+import Control.Exception.Lens
 import System.IO.Silently
-import Test.Hspec
+import Test.Hspec hiding (shouldThrow)
 import Test.Hspec.Runner
 
 import Test.Hspec.Expectations.Lens
@@ -103,6 +105,23 @@ spec = do
     it "lists structure through a Traversal" $
       shouldHold $
         [[1, 2, 3], [4, 5, 6]] `shouldList` [1, 3, 5] `through` traverse.traverse.filtered odd
+
+  describe "shouldThrow" $ do
+    it "catches ErrorCalls" $
+      shouldHold $
+        error "hi" `shouldThrow` _ErrorCall
+
+    it "actually catches more fine-grained ErrorCalls" $
+      shouldHold $
+        error "hi" `shouldThrow` _ErrorCall.only "hi"
+
+    it "actually does not catch other ErrorCalls" $
+      shouldNotHold $
+        error "by" `shouldThrow` _ErrorCall.only "hi"
+
+    it "catches other exceptions too" $
+      shouldHold $
+        evaluate (1 `div` 0) `shouldThrow` _DivideByZero
 
 
 shouldResultIn :: Expectation -> String -> IO ()

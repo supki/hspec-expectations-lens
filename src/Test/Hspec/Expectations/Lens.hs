@@ -6,17 +6,20 @@ module Test.Hspec.Expectations.Lens
   , shouldView
   , shouldPreview
   , shouldList
+  , shouldThrow
   , through
   ) where
 
 import Control.Lens
+import Control.Exception (SomeException)
+import Control.Exception.Lens
 import Data.Monoid (Any(..), All(..), First(..), Endo(..))
 import Test.Hspec.Expectations (Expectation)
-import Test.HUnit (assertBool)
+import Test.HUnit (assertBool, assertFailure)
 import Text.Printf (printf)
 
 
-infixl 1 `shouldHave`, `shouldNotHave`, `shouldView`, `shouldPreview`, `shouldList`, `through`
+infixl 1 `shouldHave`, `shouldNotHave`, `shouldView`, `shouldPreview`, `shouldList`, `shouldThrow`, `through`
 
 -- | @x \`shouldHave\` l@ sets the expectation that 'Fold' @l@ has
 -- non-zero number of targets in @x@
@@ -97,6 +100,26 @@ shouldList :: (Show s, Show a, Eq a) => s -> [a] -> Getting (Endo [a]) s a -> Ex
 (x `shouldList` y) l = assertBool msg (toListOf l x == y)
  where
   msg = printf "Can't list %s from %s through supplied Fold" (show y) (show x)
+
+-- | @x \`shouldthrow\` l@ sets the expectation that
+-- @x@ throws an exception catchable with a 'Fold' @l@
+--
+-- /Note:/ name conflicts with 'Test.Hspec.Expectations.shouldThrow'
+--
+-- @
+-- shouldThrow :: 'IO' a -> -> 'Getter'     s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> -> 'Fold'       s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> -> 'Lens''      s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> -> 'Iso''       s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> -> 'Traversal'' s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> -> 'Prism''     s b -> 'Expectation'
+-- @
+shouldThrow :: IO a -> Getting (First b) SomeException b -> Expectation
+x `shouldThrow` l = do
+  r <- trying l x
+  case r of
+    Left  _ -> return ()
+    Right _ -> assertFailure "Couldn't catch any exceptions with the supplied Fold"
 
 -- | A helper to fight parentheses
 --
