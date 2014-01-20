@@ -13,7 +13,7 @@ category:            Testing
 build-type:          Simple
 extra-source-files:
   CHANGELOG.md
-  README.md
+  README.lhs
 cabal-version:       >= 1.10
 
 source-repository head
