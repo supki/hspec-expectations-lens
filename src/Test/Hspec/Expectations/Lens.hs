@@ -7,6 +7,7 @@ module Test.Hspec.Expectations.Lens
   , shouldPreview
   , shouldList
   , shouldThrow
+  , shouldReturn
   , through
   ) where
 
@@ -19,7 +20,11 @@ import Test.HUnit (assertBool, assertFailure)
 import Text.Printf (printf)
 
 
-infixl 1 `shouldHave`, `shouldNotHave`, `shouldView`, `shouldPreview`, `shouldList`, `shouldThrow`, `through`
+infixl 1 `shouldHave`, `shouldNotHave`
+infixl 1 `shouldView`, `shouldPreview`, `shouldList`
+infixl 1 `shouldThrow`
+infixl 1 `shouldReturn`
+infixl 1 `through`
 
 -- | @x \`shouldHave\` l@ sets the expectation that 'Fold' @l@ has
 -- non-zero number of targets in @x@
@@ -107,12 +112,12 @@ shouldList :: (Show s, Show a, Eq a) => s -> [a] -> Getting (Endo [a]) s a -> Ex
 -- /Note:/ name conflicts with 'Test.Hspec.Expectations.shouldThrow'
 --
 -- @
--- shouldThrow :: 'IO' a -> -> 'Getter'     s b -> 'Expectation'
--- shouldThrow :: 'IO' a -> -> 'Fold'       s b -> 'Expectation'
--- shouldThrow :: 'IO' a -> -> 'Lens''      s b -> 'Expectation'
--- shouldThrow :: 'IO' a -> -> 'Iso''       s b -> 'Expectation'
--- shouldThrow :: 'IO' a -> -> 'Traversal'' s b -> 'Expectation'
--- shouldThrow :: 'IO' a -> -> 'Prism''     s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Getter'     s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Fold'       s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Lens''      s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Iso''       s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Traversal'' s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Prism''     s b -> 'Expectation'
 -- @
 shouldThrow :: IO a -> Getting (First b) SomeException b -> Expectation
 x `shouldThrow` l = do
@@ -120,6 +125,18 @@ x `shouldThrow` l = do
   case r of
     Left  _ -> return ()
     Right _ -> assertFailure "Couldn't catch any exceptions with the supplied Fold"
+
+-- |
+--
+-- @
+-- shouldReturn :: ('Show' a, 'Eq' a) => 'IO' s -> a -> 'Action' 'IO' s a -> 'Expectation''
+-- @
+shouldReturn :: (Show a, Eq a) => IO s -> a -> Acting IO (Leftmost a) s s a b -> Expectation
+(x `shouldReturn` y) l = do
+  r <- x ^!? acts.l
+  assertBool msg (r == Just y)
+ where
+  msg = printf "Supplied Action does not result in %s" (show y)
 
 -- | A helper to fight parentheses
 --

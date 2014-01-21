@@ -5,7 +5,7 @@ import Control.Lens
 import Control.Exception
 import Control.Exception.Lens
 import System.IO.Silently
-import Test.Hspec hiding (shouldThrow)
+import Test.Hspec hiding (shouldReturn, shouldThrow)
 import Test.Hspec.Runner
 
 import Test.Hspec.Expectations.Lens
@@ -122,6 +122,11 @@ spec = do
     it "catches other exceptions too" $
       shouldHold $
         evaluate (1 `div` 0) `shouldThrow` _DivideByZero
+
+  describe "shouldReturn" $
+    it "performs IO actions" $
+      shouldHold $
+        (return (Just 4) :: IO (Maybe Int))  `shouldReturn` 4 `through` _Just
 
 
 shouldResultIn :: Expectation -> String -> IO ()
