@@ -1,7 +1,7 @@
 0.3.0.0
 =======
 
-  * Add a `shouldReturn` expectation, a lensy variant of `shouldReturn`
+  * Add a `shouldPerform` expectation
 
 0.2.0.0
 =======

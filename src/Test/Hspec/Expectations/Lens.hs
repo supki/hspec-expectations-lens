@@ -7,7 +7,7 @@ module Test.Hspec.Expectations.Lens
   , shouldPreview
   , shouldList
   , shouldThrow
-  , shouldReturn
+  , shouldPerform
   , through
   ) where
 
@@ -23,11 +23,13 @@ import Text.Printf (printf)
 infixl 1 `shouldHave`, `shouldNotHave`
 infixl 1 `shouldView`, `shouldPreview`, `shouldList`
 infixl 1 `shouldThrow`
-infixl 1 `shouldReturn`
+infixl 1 `shouldPerform`
 infixl 1 `through`
 
--- | @x \`shouldHave\` l@ sets the expectation that 'Fold' @l@ has
--- non-zero number of targets in @x@
+-- | @s \`shouldHave\` l@ sets the expectation that 'Fold' @l@ has
+-- non-zero number of targets in the structure @s@
+--
+-- > s `shouldBe` t ≡ s `shouldHave` only t
 --
 -- @
 -- shouldHave :: 'Show' s => s -> 'Getter'     s a -> 'Expectation'
@@ -38,12 +40,12 @@ infixl 1 `through`
 -- shouldHave :: 'Show' s => s -> 'Prism''     s a -> 'Expectation'
 -- @
 shouldHave :: Show s => s -> Getting Any s a -> Expectation
-x `shouldHave` f = assertBool msg (has f x)
+s `shouldHave` l = assertBool msg (has l s)
  where
-  msg = printf "Supplied Fold has zero targets for %s" (show x)
+  msg = printf "This Fold has zero targets for %s" (show s)
 
--- | @x \`shouldNotHave\` l@ sets the expectation that 'Fold' @l@
--- has zero targets in @x@
+-- | @s \`shouldNotHave\` l@ sets the expectation that 'Fold' @l@
+-- has exactly zero targets in the structue @s@
 --
 -- @
 -- shouldNotHave :: 'Show' s => s -> 'Getter'     s a -> 'Expectation'
@@ -54,12 +56,12 @@ x `shouldHave` f = assertBool msg (has f x)
 -- shouldNotHave :: 'Show' s => s -> 'Prism''     s a -> 'Expectation'
 -- @
 shouldNotHave :: Show s => s -> Getting All s a -> Expectation
-x `shouldNotHave` f = assertBool msg (hasn't f x)
+s `shouldNotHave` l = assertBool msg (hasn't l s)
  where
-  msg = printf "Supplied Fold has non-zero targets for %s" (show x)
+  msg = printf "This Fold has non-zero targets for %s" (show s)
 
--- | @x \`shouldView\` y \`through\` l@ sets the expectation that
--- you can see @y@ in @x@ though a 'Getter' @l@
+-- | @s \`shouldView\` t \`through\` l@ sets the expectation that
+-- you can see target @t@ in the structure @s@ though a 'Getter' @l@
 --
 -- @
 -- shouldView ::           ('Show' s, 'Show' a, 'Eq' a) => s -> a -> 'Getter'     s a -> 'Expectation'
@@ -70,12 +72,12 @@ x `shouldNotHave` f = assertBool msg (hasn't f x)
 -- shouldView :: ('Data.Monoid.Monoid' m, 'Show' s, 'Show' a, 'Eq' a) => s -> a -> 'Prism''     s m -> 'Expectation'
 -- @
 shouldView :: (Show s, Show a, Eq a) => s -> a -> Getting a s a -> Expectation
-(x `shouldView` y) l = assertBool msg (view l x == y)
+(s `shouldView` t) l = assertBool msg (view l s == t)
  where
-  msg = printf "Can't view %s from %s through supplied Getter" (show y) (show x)
+  msg = printf "Can't view %s from %s through this Getter" (show t) (show s)
 
--- | @x \`shouldPreview\` y \`through\` l@ sets the expectation that
--- you can list @y@ in @x@ first though a 'Fold' @l@
+-- | @s \`shouldPreview\` t \`through\` l@ sets the expectation that
+-- you @y@ is the first target of the 'Fold' @l@ in @s@
 --
 -- @
 -- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) => s -> a -> 'Getter'     s a -> 'Expectation'
@@ -86,12 +88,12 @@ shouldView :: (Show s, Show a, Eq a) => s -> a -> Getting a s a -> Expectation
 -- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) => s -> a -> 'Prism''     s a -> 'Expectation'
 -- @
 shouldPreview :: (Show s, Show a, Eq a) => s -> a -> Getting (First a) s a -> Expectation
-(x `shouldPreview` y) l = assertBool msg (preview l x == Just y)
+(s `shouldPreview` t) l = assertBool msg (preview l s == Just t)
  where
-  msg = printf "Can't preview %s from %s through supplied Fold" (show y) (show x)
+  msg = printf "Can't preview %s from %s through this Fold" (show t) (show s)
 
--- | @x \`shouldList\` ys \`through\` l@ sets the expectation that
--- you can list @ys@ in @x@ though a 'Fold' @l@
+-- | @s \`shouldList\` ts \`through\` l@ sets the expectation that
+-- @ts@ is a list of the Fold @l@ targets in @x@
 --
 -- @
 -- shouldList :: ('Show' s, 'Show' a, 'Eq' a) => s -> [a] -> 'Getter'     s a -> 'Expectation'
@@ -102,14 +104,15 @@ shouldPreview :: (Show s, Show a, Eq a) => s -> a -> Getting (First a) s a -> Ex
 -- shouldList :: ('Show' s, 'Show' a, 'Eq' a) => s -> [a] -> 'Prism''     s a -> 'Expectation'
 -- @
 shouldList :: (Show s, Show a, Eq a) => s -> [a] -> Getting (Endo [a]) s a -> Expectation
-(x `shouldList` y) l = assertBool msg (toListOf l x == y)
+(s `shouldList` t) l = assertBool msg (toListOf l s == t)
  where
-  msg = printf "Can't list %s from %s through supplied Fold" (show y) (show x)
+  msg = printf "Can't list %s from %s through this Fold" (show t) (show s)
 
--- | @x \`shouldthrow\` l@ sets the expectation that
--- @x@ throws an exception catchable with a 'Fold' @l@
+-- | @a \`shouldThrow\` l@ sets the expectation that
+-- @a@ throws an exception that 'Fold' @l@ can catch
 --
--- /Note:/ name conflicts with 'Test.Hspec.Expectations.shouldThrow'
+-- "Test.Hspec" exports 'Test.Hspec.Expectations.shouldThrow' too; it
+-- only allows @e -> Bool@ selectors, which is less general and often less convenient
 --
 -- @
 -- shouldThrow :: 'IO' a -> 'Getter'     s b -> 'Expectation'
@@ -124,19 +127,23 @@ x `shouldThrow` l = do
   r <- trying l x
   case r of
     Left  _ -> return ()
-    Right _ -> assertFailure "Couldn't catch any exceptions with the supplied Fold"
+    Right _ -> assertFailure "Couldn't catch any exceptions with this Fold"
 
--- |
+-- | @a \`shouldPerform\` t \`through\` l@ sets the expectation that @t@ is
+-- a target of the 'MonadicFold' @l@ applied to the result of action @a@
 --
 -- @
--- shouldReturn :: ('Show' a, 'Eq' a) => 'IO' s -> a -> 'Action' 'IO' s a -> 'Expectation''
+-- shouldPerform :: ('Show' a, 'Eq' a) => 'IO' s -> a -> 'Action'      'IO' s a -> 'Expectation'
+-- shouldPerform :: ('Show' a, 'Eq' a) => 'IO' s -> a -> 'MonadicFold' 'IO' s a -> 'Expectation'
 -- @
-shouldReturn :: (Show a, Eq a) => IO s -> a -> Acting IO (Leftmost a) s s a b -> Expectation
-(x `shouldReturn` y) l = do
+shouldPerform :: (Show a, Eq a) => IO s -> a -> Acting IO (Leftmost a) s s a b -> Expectation
+(x `shouldPerform` y) l = do
   r <- x ^!? acts.l
-  assertBool msg (r == Just y)
+  case r of
+    Nothing -> assertFailure "This MonadicFold does not result in anything"
+    Just r' -> assertBool (msg r') (r' == y)
  where
-  msg = printf "Supplied Action does not result in %s" (show y)
+  msg = printf "This MonadicFold does not result in %s but %s" (show y) . show
 
 -- | A helper to fight parentheses
 --

@@ -123,10 +123,10 @@ spec = do
       shouldHold $
         evaluate (1 `div` 0) `shouldThrow` _DivideByZero
 
-  describe "shouldReturn" $
+  describe "shouldPerform" $
     it "performs IO actions" $
       shouldHold $
-        (return (Just 4) :: IO (Maybe Int))  `shouldReturn` 4 `through` _Just
+        (return (Just 4) :: IO (Maybe Int))  `shouldPerform` 4 `through` _Just
 
 
 shouldResultIn :: Expectation -> String -> IO ()

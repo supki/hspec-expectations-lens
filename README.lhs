@@ -3,78 +3,115 @@ hspec-expectations-lens
 [![Hackage](https://budueba.com/hackage/hspec-expectations-lens)](http://hackage.haskell.org/package/hspec-expectations-lens)
 [![Build Status](https://secure.travis-ci.org/supki/hspec-expectations-lens.png?branch=master)](http://travis-ci.org/supki/hspec-expectations-lens)
 
-This is an literate haskell file, so we start with pragmas,
+hspec-expectations-lens is a set of expectations for [Hspec][hspec]
+with a [lens][lens]-compatible interface
 
-> {-# LANGUAGE ExtendedDefaultRules #-}
+This README is a literate haskell file which contains a Hspec spec.
+You can run it with `runhaskell`; result is something akin to:
 
-module declaration,
 
+```shell
+% runhaskell README.lhs
+
+shouldHave
+  - checks targets exist
+  - looks as deep into structure as you want
+  - replaces 'shouldBe'
+  - checks a bigger part of the structure for equality
+  - checks the whole structure for equality
+
+shouldNotHave
+  - is the opposite of 'shouldHave'
+
+shouldView
+  - gets a single target verbatim
+  - combines multiple targets using Monoid instance
+
+shouldList
+  - combines multiple targets into list
+
+shouldPreview
+  - gets the first target
+
+shouldPerform
+  - performs an action and gets the first target
+
+shouldThrow
+  - looks into the 'error' call
+  - looks into the division by zero
+```
+
+Expectations
+------------
+
+We start with pragmas, module declaration, and imports we use later.
+
+> {-# LANGUAGE ExtendedDefaultRules #-} -- this is only neccessary because we don't like annotations
+>
 > module Main (main) where
-
-and imports we'll need later.
-
+>
 > import Control.Lens
+> import Data.List.Lens
 > import Control.Exception (evaluate)
 > import Control.Exception.Lens (_ErrorCall, _DivideByZero)
 > import Test.Hspec.Lens
-
+>
 > main :: IO ()
 > main = hspec $ do
 
-The format of this readme is a working [hspec][hspec] spec. You can run it using `runhaskell`:
-
-    % runhaskell README.lhs
-
-[hspec-expectations-lens][hspec-expectations-lens] expectations can be divided into several groups.
-The first one contains [`shouldHave`][shouldHave] and [`shouldNotHave`][shouldNotHave] combinators; they only
-check whether a [`Fold`][Fold] you give them has (or has not) any targets in the structure.
+hspec-expectations-lens expectations form several groups. First one contains `shouldHave`
+and `shouldNotHave` combinators—they check whether a `Fold` you give them has (or doesn't have)
+any targets in the structure.
 
 >   describe "shouldHave" $ do
->     it "checks 'Fold' has targets" $
+>     it "checks targets exist" $
 >       Right (Just (Left 'a')) `shouldHave` _Right
 
-We can look multiple levels deep into structure; for instance, [`_Right`][Right]`.`[`_Just`][Just]`.`[`_Left`][Left] would also work here:
+We can look arbitrarily deep into the structure; for instance, `_Right._Just._Left`
+would also work here:
 
 >     it "looks as deep into structure as you want" $
 >       Right (Just (Left 'a')) `shouldHave` _Right._Just
 
-Finally, `shouldHave` can happily be used as a replacement for a vanilla [`shouldBe`][shouldBe].
+Finally, `shouldHave` can happily be used as a replacement for a vanilla `shouldBe`.
 
 >     it "replaces 'shouldBe'" $
 >       Right (Just (Left 'a')) `shouldHave` _Right._Just._Left.only 'a'
-
->     it "can check for equality a bigger part of the structure" $
+>
+>     it "checks a bigger part of the structure for equality" $
 >       Right (Just (Left 'a')) `shouldHave` _Right._Just.only (Left 'a')
-
->     it "can check for equality the whole structure" $
+>
+>     it "checks the whole structure for equality" $
 >       Right (Just (Left 'a')) `shouldHave` only (Right (Just (Left 'a')))
 
-`shouldNotHave` is similar to `shouldHave` but it's exactly the opposite thing: it checks
-whether the `Fold` does not have any targets in the structure.
+`shouldNotHave` is the opposite of `shouldHave` as its name implies, it checks
+whether a `Fold` does not have any targets in the structure.
 
 >   describe "shouldNotHave" $
 >     it "is the opposite of 'shouldHave'" $
 >       Right (Just (Left 'a')) `shouldNotHave` _Left
 
-Next group of combinators is those of them that actually care about the result of looking into the structure.
-It consists of [`shouldView`][shouldView], [`shouldPreview`][shouldPreview], and [`shouldList`][shouldList].
-They derive names from [`view`][view], [`preview`][preview], and [`toListOf`][toListOf] combinators
-from the [`lens`][lens] package.
+Next group of expectations is those of them that actually care about the result
+of looking into the structure.  It consists of `shouldView`, `shouldPreview`,
+`shouldList`, and `shouldPerform`.  They derive names from `view`, `preview`, `toListOf`,
+and `perform` `combinators from the lens package.
 
-`shouldView` works similarly to `view`, no surprises here. If a `Fold` has one target, you just get it:
+`shouldView` works similarly to `view`, no big surprises here. If a `Fold` is actually
+a `Getter`, you just get its target:
 
 >   describe "shouldView" $ do
->     it "gets single target verbatim" $
+>     it "gets a single target verbatim" $
 >       (1, (((1, 7), 8), 2, (3, 4), 5, 7)) `shouldView` 7 `through` _2._1._1._2
 
-([`through`][through] is a fancy name for `id` to avoid parentheses here and there)
+(`through` is just a fancy name for `id`; it helps to avoid parentheses)
 
-Otherwise, if `Fold` has multiple targets, they are combined using `Monoid` instance for the type:
+Otherwise, if `Fold` has multiple targets, they are combined using `Monoid` instance
+for the target type (and it better have one):
 
 >     it "combines multiple targets using Monoid instance" $
 >       [("foo", 1), ("bar", 2), ("baz", 3)] `shouldView` "foobarbaz" `through` folded._1
 
-`shouldList` is like `toListOf`, that is, it combines targets into list:
+`shouldList` is like `toListOf`, that is, it combines its targets into the list:
 
 >   describe "shouldList" $
 >     it "combines multiple targets into list" $
@@ -86,31 +123,22 @@ Otherwise, if `Fold` has multiple targets, they are combined using `Monoid` inst
 >     it "gets the first target" $
 >       [1..10] `shouldPreview` 10 `through` reversed.folded
 
+`shouldPerform` performs the action and looks into the first target of the result.
+
+>   describe "shouldPerform" $
+>     it "performs an action and gets the first target" $
+>       readFile "README.lhs" `shouldPerform` 99 `through` to lines.folded.prefixed ">".to length
+
 The last combinator, which does not really belong to any of the previous groups,
-is [`shouldThrow`][shouldThrow]. It uses composable selectors to determine which exception was thrown:
+is `shouldThrow`. It uses composable selectors to determine which
+exception was thrown:
 
 >   describe "shouldThrow" $ do
->     it "can look into the 'error' call" $
+>     it "looks into the 'error' call" $
 >       error "foo" `shouldThrow` _ErrorCall.only "foo"
-
->     it "can look into the division by zero" $
+>
+>     it "looks into the division by zero" $
 >       evaluate (1 `div` 0) `shouldThrow` _DivideByZero
 
   [hspec]: http://hspec.github.io/
   [lens]: https://github.com/ekmett/lens/
-  [hspec-expectations-lens]: http://supki.github.io/hspec-expectations-lens/
-  [Fold]: http://hackage.haskell.org/package/lens-3.10.1/docs/Control-Lens-Type.html#t:Fold
-  [Right]: http://hackage.haskell.org/package/lens-3.10.1/docs/Control-Lens-Prism.html#v:_Right
-  [Just]: http://hackage.haskell.org/package/lens-3.10.1/docs/Control-Lens-Prism.html#v:_Just
-  [Left]: http://hackage.haskell.org/package/lens-3.10.1/docs/Control-Lens-Prism.html#v:_Left
-  [view]: http://hackage.haskell.org/package/lens-3.10.1/docs/Control-Lens-Getter.html#v:view
-  [preview]: http://hackage.haskell.org/package/lens-3.10.1/docs/Control-Lens-Fold.html#v:preview
-  [toListOf]: http://hackage.haskell.org/package/lens-3.10.1/docs/Control-Lens-Fold.html#v:toListOf
-  [shouldBe]: http://hackage.haskell.org/package/hspec-expectations-0.5.0.1/docs/Test-Hspec-Expectations.html#v:shouldBe
-  [shouldHave]: http://supki.github.io/hspec-expectations-lens/Test-Hspec-Expectations-Lens.html#v:shouldHave
-  [shouldNotHave]: http://supki.github.io/hspec-expectations-lens/Test-Hspec-Expectations-Lens.html#v:shouldNotHave
-  [shouldView]: http://supki.github.io/hspec-expectations-lens/Test-Hspec-Expectations-Lens.html#v:shouldView
-  [shouldPreview]: http://supki.github.io/hspec-expectations-lens/Test-Hspec-Expectations-Lens.html#v:shouldPreview
-  [shouldList]: http://supki.github.io/hspec-expectations-lens/Test-Hspec-Expectations-Lens.html#v:shouldList
-  [shouldThrow]: http://supki.github.io/hspec-expectations-lens/Test-Hspec-Expectations-Lens.html#v:shouldThrow
-  [through]: http://supki.github.io/hspec-expectations-lens/Test-Hspec-Expectations-Lens.html#v:through
