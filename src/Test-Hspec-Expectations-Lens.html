@@ -16,131 +16,155 @@
 <a name="line-7"></a>  <span class='hs-layout'>,</span> <span class='hs-varid'>shouldPreview</span>
 <a name="line-8"></a>  <span class='hs-layout'>,</span> <span class='hs-varid'>shouldList</span>
 <a name="line-9"></a>  <span class='hs-layout'>,</span> <span class='hs-varid'>shouldThrow</span>
-<a name="line-10"></a>  <span class='hs-layout'>,</span> <span class='hs-varid'>through</span>
-<a name="line-11"></a>  <span class='hs-layout'>)</span> <span class='hs-keyword'>where</span>
-<a name="line-12"></a>
-<a name="line-13"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Lens</span>
-<a name="line-14"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Exception</span> <span class='hs-layout'>(</span><span class='hs-conid'>SomeException</span><span class='hs-layout'>)</span>
-<a name="line-15"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Exception</span><span class='hs-varop'>.</span><span class='hs-conid'>Lens</span>
-<a name="line-16"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Data</span><span class='hs-varop'>.</span><span class='hs-conid'>Monoid</span> <span class='hs-layout'>(</span><span class='hs-conid'>Any</span><span class='hs-layout'>(</span><span class='hs-keyglyph'>..</span><span class='hs-layout'>)</span><span class='hs-layout'>,</span> <span class='hs-conid'>All</span><span class='hs-layout'>(</span><span class='hs-keyglyph'>..</span><span class='hs-layout'>)</span><span class='hs-layout'>,</span> <span class='hs-conid'>First</span><span class='hs-layout'>(</span><span class='hs-keyglyph'>..</span><span class='hs-layout'>)</span><span class='hs-layout'>,</span> <span class='hs-conid'>Endo</span><span class='hs-layout'>(</span><span class='hs-keyglyph'>..</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
-<a name="line-17"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Test</span><span class='hs-varop'>.</span><span class='hs-conid'>Hspec</span><span class='hs-varop'>.</span><span class='hs-conid'>Expectations</span> <span class='hs-layout'>(</span><span class='hs-conid'>Expectation</span><span class='hs-layout'>)</span>
-<a name="line-18"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Test</span><span class='hs-varop'>.</span><span class='hs-conid'>HUnit</span> <span class='hs-layout'>(</span><span class='hs-varid'>assertBool</span><span class='hs-layout'>,</span> <span class='hs-varid'>assertFailure</span><span class='hs-layout'>)</span>
-<a name="line-19"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Text</span><span class='hs-varop'>.</span><span class='hs-conid'>Printf</span> <span class='hs-layout'>(</span><span class='hs-varid'>printf</span><span class='hs-layout'>)</span>
-<a name="line-20"></a>
+<a name="line-10"></a>  <span class='hs-layout'>,</span> <span class='hs-varid'>shouldPerform</span>
+<a name="line-11"></a>  <span class='hs-layout'>,</span> <span class='hs-varid'>through</span>
+<a name="line-12"></a>  <span class='hs-layout'>)</span> <span class='hs-keyword'>where</span>
+<a name="line-13"></a>
+<a name="line-14"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Lens</span>
+<a name="line-15"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Exception</span> <span class='hs-layout'>(</span><span class='hs-conid'>SomeException</span><span class='hs-layout'>)</span>
+<a name="line-16"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Exception</span><span class='hs-varop'>.</span><span class='hs-conid'>Lens</span>
+<a name="line-17"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Data</span><span class='hs-varop'>.</span><span class='hs-conid'>Monoid</span> <span class='hs-layout'>(</span><span class='hs-conid'>Any</span><span class='hs-layout'>(</span><span class='hs-keyglyph'>..</span><span class='hs-layout'>)</span><span class='hs-layout'>,</span> <span class='hs-conid'>All</span><span class='hs-layout'>(</span><span class='hs-keyglyph'>..</span><span class='hs-layout'>)</span><span class='hs-layout'>,</span> <span class='hs-conid'>First</span><span class='hs-layout'>(</span><span class='hs-keyglyph'>..</span><span class='hs-layout'>)</span><span class='hs-layout'>,</span> <span class='hs-conid'>Endo</span><span class='hs-layout'>(</span><span class='hs-keyglyph'>..</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+<a name="line-18"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Test</span><span class='hs-varop'>.</span><span class='hs-conid'>Hspec</span><span class='hs-varop'>.</span><span class='hs-conid'>Expectations</span> <span class='hs-layout'>(</span><span class='hs-conid'>Expectation</span><span class='hs-layout'>)</span>
+<a name="line-19"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Test</span><span class='hs-varop'>.</span><span class='hs-conid'>HUnit</span> <span class='hs-layout'>(</span><span class='hs-varid'>assertBool</span><span class='hs-layout'>,</span> <span class='hs-varid'>assertFailure</span><span class='hs-layout'>)</span>
+<a name="line-20"></a><span class='hs-keyword'>import</span> <span class='hs-conid'>Text</span><span class='hs-varop'>.</span><span class='hs-conid'>Printf</span> <span class='hs-layout'>(</span><span class='hs-varid'>printf</span><span class='hs-layout'>)</span>
 <a name="line-21"></a>
-<a name="line-22"></a><span class='hs-keyword'>infixl</span> <span class='hs-num'>1</span> <span class='hs-varop'>`shouldHave`</span><span class='hs-layout'>,</span> <span class='hs-varop'>`shouldNotHave`</span><span class='hs-layout'>,</span> <span class='hs-varop'>`shouldView`</span><span class='hs-layout'>,</span> <span class='hs-varop'>`shouldPreview`</span><span class='hs-layout'>,</span> <span class='hs-varop'>`shouldList`</span><span class='hs-layout'>,</span> <span class='hs-varop'>`shouldThrow`</span><span class='hs-layout'>,</span> <span class='hs-varop'>`through`</span>
-<a name="line-23"></a>
-<a name="line-24"></a><a name="shouldHave"></a><span class='hs-comment'>-- | @x \`shouldHave\` l@ sets the expectation that 'Fold' @l@ has</span>
-<a name="line-25"></a><span class='hs-comment'>-- non-zero number of targets in @x@</span>
-<a name="line-26"></a><span class='hs-comment'>--</span>
-<a name="line-27"></a><span class='hs-comment'>-- @</span>
-<a name="line-28"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Getter'     s a -&gt; 'Expectation'</span>
-<a name="line-29"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Fold'       s a -&gt; 'Expectation'</span>
-<a name="line-30"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Iso''       s a -&gt; 'Expectation'</span>
-<a name="line-31"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Lens''      s a -&gt; 'Expectation'</span>
-<a name="line-32"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Traversal'' s a -&gt; 'Expectation'</span>
-<a name="line-33"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Prism''     s a -&gt; 'Expectation'</span>
+<a name="line-22"></a>
+<a name="line-23"></a><span class='hs-keyword'>infixl</span> <span class='hs-num'>1</span> <span class='hs-varop'>`shouldHave`</span><span class='hs-layout'>,</span> <span class='hs-varop'>`shouldNotHave`</span>
+<a name="line-24"></a><span class='hs-keyword'>infixl</span> <span class='hs-num'>1</span> <span class='hs-varop'>`shouldView`</span><span class='hs-layout'>,</span> <span class='hs-varop'>`shouldPreview`</span><span class='hs-layout'>,</span> <span class='hs-varop'>`shouldList`</span>
+<a name="line-25"></a><span class='hs-keyword'>infixl</span> <span class='hs-num'>1</span> <span class='hs-varop'>`shouldThrow`</span>
+<a name="line-26"></a><span class='hs-keyword'>infixl</span> <span class='hs-num'>1</span> <span class='hs-varop'>`shouldPerform`</span>
+<a name="line-27"></a><span class='hs-keyword'>infixl</span> <span class='hs-num'>1</span> <span class='hs-varop'>`through`</span>
+<a name="line-28"></a>
+<a name="line-29"></a><a name="shouldHave"></a><span class='hs-comment'>-- | @s \`shouldHave\` l@ sets the expectation that 'Fold' @l@ has</span>
+<a name="line-30"></a><span class='hs-comment'>-- non-zero number of targets in the structure @s@</span>
+<a name="line-31"></a><span class='hs-comment'>--</span>
+<a name="line-32"></a><span class='hs-comment'>-- &gt; s `shouldBe` t ≡ s `shouldHave` only t</span>
+<a name="line-33"></a><span class='hs-comment'>--</span>
 <a name="line-34"></a><span class='hs-comment'>-- @</span>
-<a name="line-35"></a><span class='hs-definition'>shouldHave</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Show</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-conid'>Any</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
-<a name="line-36"></a><a name="shouldHave"></a><span class='hs-definition'>x</span> <span class='hs-varop'>`shouldHave`</span> <span class='hs-varid'>f</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>assertBool</span> <span class='hs-varid'>msg</span> <span class='hs-layout'>(</span><span class='hs-varid'>has</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span>
-<a name="line-37"></a> <span class='hs-keyword'>where</span>
-<a name="line-38"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"Supplied Fold has zero targets for %s"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span>
-<a name="line-39"></a>
-<a name="line-40"></a><a name="shouldNotHave"></a><span class='hs-comment'>-- | @x \`shouldNotHave\` l@ sets the expectation that 'Fold' @l@</span>
-<a name="line-41"></a><span class='hs-comment'>-- has zero targets in @x@</span>
-<a name="line-42"></a><span class='hs-comment'>--</span>
-<a name="line-43"></a><span class='hs-comment'>-- @</span>
-<a name="line-44"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Getter'     s a -&gt; 'Expectation'</span>
-<a name="line-45"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Fold'       s a -&gt; 'Expectation'</span>
-<a name="line-46"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Iso''       s a -&gt; 'Expectation'</span>
-<a name="line-47"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Lens''      s a -&gt; 'Expectation'</span>
-<a name="line-48"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Traversal'' s a -&gt; 'Expectation'</span>
-<a name="line-49"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Prism''     s a -&gt; 'Expectation'</span>
+<a name="line-35"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Getter'     s a -&gt; 'Expectation'</span>
+<a name="line-36"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Fold'       s a -&gt; 'Expectation'</span>
+<a name="line-37"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Iso''       s a -&gt; 'Expectation'</span>
+<a name="line-38"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Lens''      s a -&gt; 'Expectation'</span>
+<a name="line-39"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Traversal'' s a -&gt; 'Expectation'</span>
+<a name="line-40"></a><span class='hs-comment'>-- shouldHave :: 'Show' s =&gt; s -&gt; 'Prism''     s a -&gt; 'Expectation'</span>
+<a name="line-41"></a><span class='hs-comment'>-- @</span>
+<a name="line-42"></a><span class='hs-definition'>shouldHave</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Show</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-conid'>Any</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
+<a name="line-43"></a><a name="shouldHave"></a><span class='hs-definition'>s</span> <span class='hs-varop'>`shouldHave`</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>assertBool</span> <span class='hs-varid'>msg</span> <span class='hs-layout'>(</span><span class='hs-varid'>has</span> <span class='hs-varid'>l</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span>
+<a name="line-44"></a> <span class='hs-keyword'>where</span>
+<a name="line-45"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"This Fold has zero targets for %s"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span>
+<a name="line-46"></a>
+<a name="line-47"></a><a name="shouldNotHave"></a><span class='hs-comment'>-- | @s \`shouldNotHave\` l@ sets the expectation that 'Fold' @l@</span>
+<a name="line-48"></a><span class='hs-comment'>-- has exactly zero targets in the structue @s@</span>
+<a name="line-49"></a><span class='hs-comment'>--</span>
 <a name="line-50"></a><span class='hs-comment'>-- @</span>
-<a name="line-51"></a><span class='hs-definition'>shouldNotHave</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Show</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-conid'>All</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
-<a name="line-52"></a><a name="shouldNotHave"></a><span class='hs-definition'>x</span> <span class='hs-varop'>`shouldNotHave`</span> <span class='hs-varid'>f</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>assertBool</span> <span class='hs-varid'>msg</span> <span class='hs-layout'>(</span><span class='hs-varid'>hasn't</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span>
-<a name="line-53"></a> <span class='hs-keyword'>where</span>
-<a name="line-54"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"Supplied Fold has non-zero targets for %s"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span>
-<a name="line-55"></a>
-<a name="line-56"></a><a name="shouldView"></a><span class='hs-comment'>-- | @x \`shouldView\` y \`through\` l@ sets the expectation that</span>
-<a name="line-57"></a><span class='hs-comment'>-- you can see @y@ in @x@ though a 'Getter' @l@</span>
-<a name="line-58"></a><span class='hs-comment'>--</span>
-<a name="line-59"></a><span class='hs-comment'>-- @</span>
-<a name="line-60"></a><span class='hs-comment'>-- shouldView ::           ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Getter'     s a -&gt; 'Expectation'</span>
-<a name="line-61"></a><span class='hs-comment'>-- shouldView :: ('Data.Monoid.Monoid' m, 'Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Fold'       s m -&gt; 'Expectation'</span>
-<a name="line-62"></a><span class='hs-comment'>-- shouldView ::           ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Iso''       s a -&gt; 'Expectation'</span>
-<a name="line-63"></a><span class='hs-comment'>-- shouldView ::           ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Lens''      s a -&gt; 'Expectation'</span>
-<a name="line-64"></a><span class='hs-comment'>-- shouldView :: ('Data.Monoid.Monoid' m, 'Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Traversal'' s m -&gt; 'Expectation'</span>
-<a name="line-65"></a><span class='hs-comment'>-- shouldView :: ('Data.Monoid.Monoid' m, 'Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Prism''     s m -&gt; 'Expectation'</span>
+<a name="line-51"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Getter'     s a -&gt; 'Expectation'</span>
+<a name="line-52"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Fold'       s a -&gt; 'Expectation'</span>
+<a name="line-53"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Iso''       s a -&gt; 'Expectation'</span>
+<a name="line-54"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Lens''      s a -&gt; 'Expectation'</span>
+<a name="line-55"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Traversal'' s a -&gt; 'Expectation'</span>
+<a name="line-56"></a><span class='hs-comment'>-- shouldNotHave :: 'Show' s =&gt; s -&gt; 'Prism''     s a -&gt; 'Expectation'</span>
+<a name="line-57"></a><span class='hs-comment'>-- @</span>
+<a name="line-58"></a><span class='hs-definition'>shouldNotHave</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Show</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-conid'>All</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
+<a name="line-59"></a><a name="shouldNotHave"></a><span class='hs-definition'>s</span> <span class='hs-varop'>`shouldNotHave`</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>assertBool</span> <span class='hs-varid'>msg</span> <span class='hs-layout'>(</span><span class='hs-varid'>hasn't</span> <span class='hs-varid'>l</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span>
+<a name="line-60"></a> <span class='hs-keyword'>where</span>
+<a name="line-61"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"This Fold has non-zero targets for %s"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span>
+<a name="line-62"></a>
+<a name="line-63"></a><a name="shouldView"></a><span class='hs-comment'>-- | @s \`shouldView\` t \`through\` l@ sets the expectation that</span>
+<a name="line-64"></a><span class='hs-comment'>-- you can see target @t@ in the structure @s@ though a 'Getter' @l@</span>
+<a name="line-65"></a><span class='hs-comment'>--</span>
 <a name="line-66"></a><span class='hs-comment'>-- @</span>
-<a name="line-67"></a><span class='hs-definition'>shouldView</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Show</span> <span class='hs-varid'>s</span><span class='hs-layout'>,</span> <span class='hs-conid'>Show</span> <span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-conid'>Eq</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-varid'>a</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
-<a name="line-68"></a><span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varop'>`shouldView`</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>assertBool</span> <span class='hs-varid'>msg</span> <span class='hs-layout'>(</span><span class='hs-varid'>view</span> <span class='hs-varid'>l</span> <span class='hs-varid'>x</span> <span class='hs-varop'>==</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span>
-<a name="line-69"></a> <span class='hs-keyword'>where</span>
-<a name="line-70"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"Can't view %s from %s through supplied Getter"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span>
-<a name="line-71"></a>
-<a name="line-72"></a><a name="shouldPreview"></a><span class='hs-comment'>-- | @x \`shouldPreview\` y \`through\` l@ sets the expectation that</span>
-<a name="line-73"></a><span class='hs-comment'>-- you can list @y@ in @x@ first though a 'Fold' @l@</span>
-<a name="line-74"></a><span class='hs-comment'>--</span>
-<a name="line-75"></a><span class='hs-comment'>-- @</span>
-<a name="line-76"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Getter'     s a -&gt; 'Expectation'</span>
-<a name="line-77"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Fold'       s a -&gt; 'Expectation'</span>
-<a name="line-78"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Lens''      s a -&gt; 'Expectation'</span>
-<a name="line-79"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Iso''       s a -&gt; 'Expectation'</span>
-<a name="line-80"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Traversal'' s a -&gt; 'Expectation'</span>
-<a name="line-81"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Prism''     s a -&gt; 'Expectation'</span>
+<a name="line-67"></a><span class='hs-comment'>-- shouldView ::           ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Getter'     s a -&gt; 'Expectation'</span>
+<a name="line-68"></a><span class='hs-comment'>-- shouldView :: ('Data.Monoid.Monoid' m, 'Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Fold'       s m -&gt; 'Expectation'</span>
+<a name="line-69"></a><span class='hs-comment'>-- shouldView ::           ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Iso''       s a -&gt; 'Expectation'</span>
+<a name="line-70"></a><span class='hs-comment'>-- shouldView ::           ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Lens''      s a -&gt; 'Expectation'</span>
+<a name="line-71"></a><span class='hs-comment'>-- shouldView :: ('Data.Monoid.Monoid' m, 'Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Traversal'' s m -&gt; 'Expectation'</span>
+<a name="line-72"></a><span class='hs-comment'>-- shouldView :: ('Data.Monoid.Monoid' m, 'Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Prism''     s m -&gt; 'Expectation'</span>
+<a name="line-73"></a><span class='hs-comment'>-- @</span>
+<a name="line-74"></a><span class='hs-definition'>shouldView</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Show</span> <span class='hs-varid'>s</span><span class='hs-layout'>,</span> <span class='hs-conid'>Show</span> <span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-conid'>Eq</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-varid'>a</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
+<a name="line-75"></a><span class='hs-layout'>(</span><span class='hs-varid'>s</span> <span class='hs-varop'>`shouldView`</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>assertBool</span> <span class='hs-varid'>msg</span> <span class='hs-layout'>(</span><span class='hs-varid'>view</span> <span class='hs-varid'>l</span> <span class='hs-varid'>s</span> <span class='hs-varop'>==</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span>
+<a name="line-76"></a> <span class='hs-keyword'>where</span>
+<a name="line-77"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"Can't view %s from %s through this Getter"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span>
+<a name="line-78"></a>
+<a name="line-79"></a><a name="shouldPreview"></a><span class='hs-comment'>-- | @s \`shouldPreview\` t \`through\` l@ sets the expectation that</span>
+<a name="line-80"></a><span class='hs-comment'>-- you @y@ is the first target of the 'Fold' @l@ in @s@</span>
+<a name="line-81"></a><span class='hs-comment'>--</span>
 <a name="line-82"></a><span class='hs-comment'>-- @</span>
-<a name="line-83"></a><span class='hs-definition'>shouldPreview</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Show</span> <span class='hs-varid'>s</span><span class='hs-layout'>,</span> <span class='hs-conid'>Show</span> <span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-conid'>Eq</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-layout'>(</span><span class='hs-conid'>First</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
-<a name="line-84"></a><span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varop'>`shouldPreview`</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>assertBool</span> <span class='hs-varid'>msg</span> <span class='hs-layout'>(</span><span class='hs-varid'>preview</span> <span class='hs-varid'>l</span> <span class='hs-varid'>x</span> <span class='hs-varop'>==</span> <span class='hs-conid'>Just</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span>
-<a name="line-85"></a> <span class='hs-keyword'>where</span>
-<a name="line-86"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"Can't preview %s from %s through supplied Fold"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span>
-<a name="line-87"></a>
-<a name="line-88"></a><a name="shouldList"></a><span class='hs-comment'>-- | @x \`shouldList\` ys \`through\` l@ sets the expectation that</span>
-<a name="line-89"></a><span class='hs-comment'>-- you can list @ys@ in @x@ though a 'Fold' @l@</span>
-<a name="line-90"></a><span class='hs-comment'>--</span>
-<a name="line-91"></a><span class='hs-comment'>-- @</span>
-<a name="line-92"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Getter'     s a -&gt; 'Expectation'</span>
-<a name="line-93"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Fold'       s a -&gt; 'Expectation'</span>
-<a name="line-94"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Lens''      s a -&gt; 'Expectation'</span>
-<a name="line-95"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Iso''       s a -&gt; 'Expectation'</span>
-<a name="line-96"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Traversal'' s a -&gt; 'Expectation'</span>
-<a name="line-97"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Prism''     s a -&gt; 'Expectation'</span>
+<a name="line-83"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Getter'     s a -&gt; 'Expectation'</span>
+<a name="line-84"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Fold'       s a -&gt; 'Expectation'</span>
+<a name="line-85"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Lens''      s a -&gt; 'Expectation'</span>
+<a name="line-86"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Iso''       s a -&gt; 'Expectation'</span>
+<a name="line-87"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Traversal'' s a -&gt; 'Expectation'</span>
+<a name="line-88"></a><span class='hs-comment'>-- shouldPreview :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; a -&gt; 'Prism''     s a -&gt; 'Expectation'</span>
+<a name="line-89"></a><span class='hs-comment'>-- @</span>
+<a name="line-90"></a><span class='hs-definition'>shouldPreview</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Show</span> <span class='hs-varid'>s</span><span class='hs-layout'>,</span> <span class='hs-conid'>Show</span> <span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-conid'>Eq</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-layout'>(</span><span class='hs-conid'>First</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
+<a name="line-91"></a><span class='hs-layout'>(</span><span class='hs-varid'>s</span> <span class='hs-varop'>`shouldPreview`</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>assertBool</span> <span class='hs-varid'>msg</span> <span class='hs-layout'>(</span><span class='hs-varid'>preview</span> <span class='hs-varid'>l</span> <span class='hs-varid'>s</span> <span class='hs-varop'>==</span> <span class='hs-conid'>Just</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span>
+<a name="line-92"></a> <span class='hs-keyword'>where</span>
+<a name="line-93"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"Can't preview %s from %s through this Fold"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span>
+<a name="line-94"></a>
+<a name="line-95"></a><a name="shouldList"></a><span class='hs-comment'>-- | @s \`shouldList\` ts \`through\` l@ sets the expectation that</span>
+<a name="line-96"></a><span class='hs-comment'>-- @ts@ is a list of the Fold @l@ targets in @x@</span>
+<a name="line-97"></a><span class='hs-comment'>--</span>
 <a name="line-98"></a><span class='hs-comment'>-- @</span>
-<a name="line-99"></a><span class='hs-definition'>shouldList</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Show</span> <span class='hs-varid'>s</span><span class='hs-layout'>,</span> <span class='hs-conid'>Show</span> <span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-conid'>Eq</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-layout'>(</span><span class='hs-conid'>Endo</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span><span class='hs-layout'>)</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
-<a name="line-100"></a><span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varop'>`shouldList`</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>assertBool</span> <span class='hs-varid'>msg</span> <span class='hs-layout'>(</span><span class='hs-varid'>toListOf</span> <span class='hs-varid'>l</span> <span class='hs-varid'>x</span> <span class='hs-varop'>==</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span>
-<a name="line-101"></a> <span class='hs-keyword'>where</span>
-<a name="line-102"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"Can't list %s from %s through supplied Fold"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span>
-<a name="line-103"></a>
-<a name="line-104"></a><a name="shouldThrow"></a><span class='hs-comment'>-- | @x \`shouldthrow\` l@ sets the expectation that</span>
-<a name="line-105"></a><span class='hs-comment'>-- @x@ throws an exception catchable with a 'Fold' @l@</span>
-<a name="line-106"></a><span class='hs-comment'>--</span>
-<a name="line-107"></a><span class='hs-comment'>-- /Note:/ name conflicts with 'Test.Hspec.Expectations.shouldThrow'</span>
-<a name="line-108"></a><span class='hs-comment'>--</span>
-<a name="line-109"></a><span class='hs-comment'>-- @</span>
-<a name="line-110"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; -&gt; 'Getter'     s b -&gt; 'Expectation'</span>
-<a name="line-111"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; -&gt; 'Fold'       s b -&gt; 'Expectation'</span>
-<a name="line-112"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; -&gt; 'Lens''      s b -&gt; 'Expectation'</span>
-<a name="line-113"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; -&gt; 'Iso''       s b -&gt; 'Expectation'</span>
-<a name="line-114"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; -&gt; 'Traversal'' s b -&gt; 'Expectation'</span>
-<a name="line-115"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; -&gt; 'Prism''     s b -&gt; 'Expectation'</span>
-<a name="line-116"></a><span class='hs-comment'>-- @</span>
-<a name="line-117"></a><span class='hs-definition'>shouldThrow</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>IO</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-layout'>(</span><span class='hs-conid'>First</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-conid'>SomeException</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
-<a name="line-118"></a><a name="shouldThrow"></a><span class='hs-definition'>x</span> <span class='hs-varop'>`shouldThrow`</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
-<a name="line-119"></a>  <span class='hs-varid'>r</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>trying</span> <span class='hs-varid'>l</span> <span class='hs-varid'>x</span>
-<a name="line-120"></a>  <span class='hs-keyword'>case</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>of</span>
-<a name="line-121"></a>    <span class='hs-conid'>Left</span>  <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>return</span> <span class='hs-conid'>()</span>
-<a name="line-122"></a>    <span class='hs-conid'>Right</span> <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>assertFailure</span> <span class='hs-str'>"Couldn't catch any exceptions with the supplied Fold"</span>
-<a name="line-123"></a>
-<a name="line-124"></a><a name="through"></a><span class='hs-comment'>-- | A helper to fight parentheses</span>
-<a name="line-125"></a><span class='hs-comment'>--</span>
-<a name="line-126"></a><span class='hs-comment'>-- @</span>
-<a name="line-127"></a><span class='hs-comment'>-- through ≡ id</span>
-<a name="line-128"></a><span class='hs-comment'>-- @</span>
-<a name="line-129"></a><span class='hs-comment'>--</span>
-<a name="line-130"></a><span class='hs-comment'>-- @</span>
-<a name="line-131"></a><span class='hs-comment'>-- through :: 'Int' -&gt; 'Int'</span>
-<a name="line-132"></a><span class='hs-comment'>-- through :: 'Char' -&gt; 'Char'</span>
-<a name="line-133"></a><span class='hs-comment'>-- @</span>
-<a name="line-134"></a><span class='hs-definition'>through</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span>
-<a name="line-135"></a><span class='hs-definition'>through</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>id</span>
+<a name="line-99"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Getter'     s a -&gt; 'Expectation'</span>
+<a name="line-100"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Fold'       s a -&gt; 'Expectation'</span>
+<a name="line-101"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Lens''      s a -&gt; 'Expectation'</span>
+<a name="line-102"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Iso''       s a -&gt; 'Expectation'</span>
+<a name="line-103"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Traversal'' s a -&gt; 'Expectation'</span>
+<a name="line-104"></a><span class='hs-comment'>-- shouldList :: ('Show' s, 'Show' a, 'Eq' a) =&gt; s -&gt; [a] -&gt; 'Prism''     s a -&gt; 'Expectation'</span>
+<a name="line-105"></a><span class='hs-comment'>-- @</span>
+<a name="line-106"></a><span class='hs-definition'>shouldList</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Show</span> <span class='hs-varid'>s</span><span class='hs-layout'>,</span> <span class='hs-conid'>Show</span> <span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-conid'>Eq</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-layout'>(</span><span class='hs-conid'>Endo</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span><span class='hs-layout'>)</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
+<a name="line-107"></a><span class='hs-layout'>(</span><span class='hs-varid'>s</span> <span class='hs-varop'>`shouldList`</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>assertBool</span> <span class='hs-varid'>msg</span> <span class='hs-layout'>(</span><span class='hs-varid'>toListOf</span> <span class='hs-varid'>l</span> <span class='hs-varid'>s</span> <span class='hs-varop'>==</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span>
+<a name="line-108"></a> <span class='hs-keyword'>where</span>
+<a name="line-109"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"Can't list %s from %s through this Fold"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span>
+<a name="line-110"></a>
+<a name="line-111"></a><a name="shouldThrow"></a><span class='hs-comment'>-- | @a \`shouldThrow\` l@ sets the expectation that</span>
+<a name="line-112"></a><span class='hs-comment'>-- @a@ throws an exception that 'Fold' @l@ can catch</span>
+<a name="line-113"></a><span class='hs-comment'>--</span>
+<a name="line-114"></a><span class='hs-comment'>-- "Test.Hspec" exports 'Test.Hspec.Expectations.shouldThrow' too; it</span>
+<a name="line-115"></a><span class='hs-comment'>-- only allows @e -&gt; Bool@ selectors, which is less general and often less convenient</span>
+<a name="line-116"></a><span class='hs-comment'>--</span>
+<a name="line-117"></a><span class='hs-comment'>-- @</span>
+<a name="line-118"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; 'Getter'     s b -&gt; 'Expectation'</span>
+<a name="line-119"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; 'Fold'       s b -&gt; 'Expectation'</span>
+<a name="line-120"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; 'Lens''      s b -&gt; 'Expectation'</span>
+<a name="line-121"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; 'Iso''       s b -&gt; 'Expectation'</span>
+<a name="line-122"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; 'Traversal'' s b -&gt; 'Expectation'</span>
+<a name="line-123"></a><span class='hs-comment'>-- shouldThrow :: 'IO' a -&gt; 'Prism''     s b -&gt; 'Expectation'</span>
+<a name="line-124"></a><span class='hs-comment'>-- @</span>
+<a name="line-125"></a><span class='hs-definition'>shouldThrow</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>IO</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Getting</span> <span class='hs-layout'>(</span><span class='hs-conid'>First</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-conid'>SomeException</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
+<a name="line-126"></a><a name="shouldThrow"></a><span class='hs-definition'>x</span> <span class='hs-varop'>`shouldThrow`</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
+<a name="line-127"></a>  <span class='hs-varid'>r</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>trying</span> <span class='hs-varid'>l</span> <span class='hs-varid'>x</span>
+<a name="line-128"></a>  <span class='hs-keyword'>case</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>of</span>
+<a name="line-129"></a>    <span class='hs-conid'>Left</span>  <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>return</span> <span class='hs-conid'>()</span>
+<a name="line-130"></a>    <span class='hs-conid'>Right</span> <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>assertFailure</span> <span class='hs-str'>"Couldn't catch any exceptions with this Fold"</span>
+<a name="line-131"></a>
+<a name="line-132"></a><a name="shouldPerform"></a><span class='hs-comment'>-- | @a \`shouldPerform\` t \`through\` l@ sets the expectation that @t@ is</span>
+<a name="line-133"></a><span class='hs-comment'>-- a target of the 'MonadicFold' @l@ applied to the result of action @a@</span>
+<a name="line-134"></a><span class='hs-comment'>--</span>
+<a name="line-135"></a><span class='hs-comment'>-- @</span>
+<a name="line-136"></a><span class='hs-comment'>-- shouldPerform :: ('Show' a, 'Eq' a) =&gt; 'IO' s -&gt; a -&gt; 'Action'      'IO' s a -&gt; 'Expectation'</span>
+<a name="line-137"></a><span class='hs-comment'>-- shouldPerform :: ('Show' a, 'Eq' a) =&gt; 'IO' s -&gt; a -&gt; 'MonadicFold' 'IO' s a -&gt; 'Expectation'</span>
+<a name="line-138"></a><span class='hs-comment'>-- @</span>
+<a name="line-139"></a><span class='hs-definition'>shouldPerform</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Show</span> <span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-conid'>Eq</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-conid'>IO</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Acting</span> <span class='hs-conid'>IO</span> <span class='hs-layout'>(</span><span class='hs-conid'>Leftmost</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-varid'>s</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Expectation</span>
+<a name="line-140"></a><span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varop'>`shouldPerform`</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
+<a name="line-141"></a>  <span class='hs-varid'>r</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>x</span> <span class='hs-varop'>^!?</span> <span class='hs-varid'>acts</span><span class='hs-varop'>.</span><span class='hs-varid'>l</span>
+<a name="line-142"></a>  <span class='hs-keyword'>case</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>of</span>
+<a name="line-143"></a>    <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>assertFailure</span> <span class='hs-str'>"This MonadicFold does not result in anything"</span>
+<a name="line-144"></a>    <span class='hs-conid'>Just</span> <span class='hs-varid'>r'</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>assertBool</span> <span class='hs-layout'>(</span><span class='hs-varid'>msg</span> <span class='hs-varid'>r'</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>r'</span> <span class='hs-varop'>==</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span>
+<a name="line-145"></a> <span class='hs-keyword'>where</span>
+<a name="line-146"></a>  <span class='hs-varid'>msg</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>printf</span> <span class='hs-str'>"This MonadicFold does not result in %s but %s"</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-varid'>show</span>
+<a name="line-147"></a>
+<a name="line-148"></a><a name="through"></a><span class='hs-comment'>-- | A helper to fight parentheses</span>
+<a name="line-149"></a><span class='hs-comment'>--</span>
+<a name="line-150"></a><span class='hs-comment'>-- @</span>
+<a name="line-151"></a><span class='hs-comment'>-- through ≡ id</span>
+<a name="line-152"></a><span class='hs-comment'>-- @</span>
+<a name="line-153"></a><span class='hs-comment'>--</span>
+<a name="line-154"></a><span class='hs-comment'>-- @</span>
+<a name="line-155"></a><span class='hs-comment'>-- through :: 'Int' -&gt; 'Int'</span>
+<a name="line-156"></a><span class='hs-comment'>-- through :: 'Char' -&gt; 'Char'</span>
+<a name="line-157"></a><span class='hs-comment'>-- @</span>
+<a name="line-158"></a><span class='hs-definition'>through</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span>
+<a name="line-159"></a><span class='hs-definition'>through</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>id</span>
 </pre></body>
 </html>
