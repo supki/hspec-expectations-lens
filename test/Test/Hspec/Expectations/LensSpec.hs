@@ -5,7 +5,7 @@ import Control.Lens
 import Control.Exception
 import Control.Exception.Lens
 import System.IO.Silently
-import Test.Hspec hiding (shouldReturn, shouldThrow)
+import Test.Hspec hiding (shouldThrow)
 import Test.Hspec.Runner
 
 import Test.Hspec.Expectations.Lens
@@ -14,117 +14,117 @@ import Test.Hspec.Expectations.Lens
 spec :: Spec
 spec = do
   describe "shouldHave" $ do
-    it "succeeds for a non-empty Traversal" $
+    it "holds for a non-empty Traversal" $
       shouldHold $
         Just (Just 5, 't') `shouldHave` traverse._1.traverse
 
-    it "succeeds for a non-empty Fold" $
+    it "holds for a non-empty Fold" $
       shouldHold $
         ("hi", [Nothing, Just 5, Nothing]) `shouldHave` _2.folded.folded
 
-    it "succeeds for a non-empty Prisms" $
+    it "holds for a non-empty Prisms" $
       shouldHold $
         Just (Right (Just 5)) `shouldHave` _Just._Right._Just
 
-    it "fails for an empty Traversal" $
+    it "does not hold for an empty Traversal" $
       shouldNotHold $
         [1..10] `shouldHave` traverse.filtered(> 10)
 
-    it "fails for an empty Fold" $
+    it "does not hold for an empty Fold" $
       shouldNotHold $
         [1..10] `shouldHave` folded.filtered(> 10)
 
-    it "fails for an empty Prism" $
+    it "does not hold for an empty Prism" $
       shouldNotHold $
         Just (Right (Just 5)) `shouldHave` _Just._Left._Just
 
   describe "shouldNotHave" $ do
-    it "fails for a non-empty Traversal" $
+    it "does not hold for a non-empty Traversal" $
       shouldNotHold $
         Just (Just 5, 't') `shouldNotHave` traverse._1.traverse
 
-    it "fails for a non-empty Fold" $
+    it "does not hold for a non-empty Fold" $
       shouldNotHold $
         ("hi", [Nothing, Just 5, Nothing]) `shouldNotHave` _2.folded.folded
 
-    it "fails for a non-empty Prism" $
+    it "does not hold for a non-empty Prism" $
       shouldNotHold $
         Just (Right (Just 5)) `shouldNotHave` _Just._Right._Just
 
-    it "succeeds for an empty Traversal" $
+    it "holds for an empty Traversal" $
       shouldHold $
         [1..10] `shouldNotHave` traverse.filtered(> 10)
 
-    it "succeeds for an empty Fold" $
+    it "holds for an empty Fold" $
       shouldHold $
         [1..10] `shouldNotHave` folded.filtered(> 10)
 
-    it "succeeds for an empty Prism" $
+    it "holds for an empty Prism" $
       shouldHold $
         Just (Right (Just 5)) `shouldNotHave` _Just._Left._Just
 
   describe "shouldView" $ do
-    it "views structure through a Lens" $
+    it "views the Lens target" $
       shouldHold $
         (1, ((2, 3), 4)) `shouldView` 3 `through` _2._1._2
 
-    it "views structure through a Getter" $
+    it "views the Getter target" $
       shouldHold $
         (1, ((2, 3), 4)) `shouldView` 3 `through` to snd.to fst.to snd
 
   describe "shouldPreview" $ do
-    it "previews structure through a Lens" $
+    it "previews the first Lens target" $
       shouldHold $
         (1, ((2, 3), 4)) `shouldPreview` 3 `through` _2._1._2
 
-    it "previews structure through a Getter" $
+    it "previews the first Getter target" $
       shouldHold $
         (1, ((2, 3), 4)) `shouldPreview` 3 `through` to snd.to fst.to snd
 
-    it "previews structure through a Fold" $
+    it "previews the first Fold target" $
       shouldHold $
         Just (Right (Just 7)) `shouldPreview` 7 `through` folded._Right.folded
 
-    it "previews structure through a Traversal" $
+    it "previews the first Traversal target" $
       shouldHold $
         Just (Right (Just 7)) `shouldPreview` 7 `through` traverse._Right.traverse
 
   describe "shouldList" $ do
-    it "lists structure through a Lens" $
+    it "lists Lens targets" $
       shouldHold $
         (1, ((2, 3), 4)) `shouldList` [3] `through` _2._1._2
 
-    it "lists structure through a Getter" $
+    it "lists Getter targets" $
       shouldHold $
         (1, ((2, 3), 4)) `shouldList` [3] `through` to snd.to fst.to snd
 
-    it "lists structure through a Fold" $
+    it "lists Fold targets" $
       shouldHold $
         [[1, 2, 3], [4, 5, 6]] `shouldList` [2, 4, 6] `through` folded.folded.filtered even
 
-    it "lists structure through a Traversal" $
+    it "lists Traversal targets" $
       shouldHold $
         [[1, 2, 3], [4, 5, 6]] `shouldList` [1, 3, 5] `through` traverse.traverse.filtered odd
 
   describe "shouldThrow" $ do
-    it "catches ErrorCalls" $
+    it "catches ErrorCall" $
       shouldHold $
         error "hi" `shouldThrow` _ErrorCall
 
-    it "actually catches more fine-grained ErrorCalls" $
+    it "catches fine-grained ErrorCall" $
       shouldHold $
         error "hi" `shouldThrow` _ErrorCall.only "hi"
 
-    it "actually does not catch other ErrorCalls" $
+    it "does not catch exceptions which selector does not match" $
       shouldNotHold $
-        error "by" `shouldThrow` _ErrorCall.only "hi"
+        error "bye" `shouldThrow` _ErrorCall.only "hi"
 
-    it "catches other exceptions too" $
+    it "catches DivideByZero" $
       shouldHold $
         evaluate (1 `div` 0) `shouldThrow` _DivideByZero
 
   describe "shouldPerform" $
-    it "performs IO actions" $
+    it "previews a first target of the Fold into IO action result" $
       shouldHold $
         (return (Just 4) :: IO (Maybe Int))  `shouldPerform` 4 `through` _Just
 
