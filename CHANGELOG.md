@@ -2,6 +2,7 @@
 =======
 
   * Add a `shouldPerform` expectation
+  * Improve expectations' error messages
 
 0.2.0.0
 =======

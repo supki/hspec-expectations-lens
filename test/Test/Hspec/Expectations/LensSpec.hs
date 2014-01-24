@@ -123,10 +123,14 @@ spec = do
       shouldHold $
         evaluate (1 `div` 0) `shouldThrow` _DivideByZero
 
-  describe "shouldPerform" $
+  describe "shouldPerform" $ do
     it "previews a first target of the Fold into IO action result" $
       shouldHold $
         (return (Just 4) :: IO (Maybe Int))  `shouldPerform` 4 `through` _Just
+
+    it "performs IO actions but still can fail to view the target" $
+      shouldNotHold $
+        (return (Just 4) :: IO (Maybe Int))  `shouldPerform` 7 `through` _Just
 
 
 shouldResultIn :: Expectation -> String -> IO ()
