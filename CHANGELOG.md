@@ -1,3 +1,8 @@
+0.2.1.1
+=======
+
+  * _Maintenance_: Upper bound on `lens`
+
 0.2.1.0
 =======
 
