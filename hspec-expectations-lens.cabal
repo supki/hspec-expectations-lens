@@ -32,7 +32,7 @@ library
       base                    == 4.*
     , hspec-expectations      >= 0.5
     , hspec                   >= 1.8
-    , lens                    >= 3.9
+    , lens                    >= 3.9 && < 4.0
     , HUnit
   exposed-modules:
     Test.Hspec.Expectations.Lens
@@ -47,5 +47,5 @@ test-suite spec
       base                    == 4.*
     , hspec
     , hspec-expectations-lens
-    , lens                    >= 3.9
+    , lens                    >= 3.9 && < 4.0
     , silently
