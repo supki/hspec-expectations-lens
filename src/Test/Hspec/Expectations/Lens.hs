@@ -142,7 +142,7 @@ x `shouldThrow` l = do
 -- shouldPerform :: ('Show' a, 'Eq' a) => 'IO' s -> a -> 'Action'      'IO' s a -> 'Expectation'
 -- shouldPerform :: ('Show' a, 'Eq' a) => 'IO' s -> a -> 'MonadicFold' 'IO' s a -> 'Expectation'
 -- @
-shouldPerform :: (Show a, Eq a) => IO s -> a -> Acting IO (Leftmost a) s s a b -> Expectation
+shouldPerform :: (Show a, Eq a) => IO s -> a -> Acting IO (Leftmost a) s a -> Expectation
 (x `shouldPerform` t) l = do
   r <- x ^!? acts.l
   case r of
