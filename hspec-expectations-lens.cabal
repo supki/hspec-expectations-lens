@@ -1,5 +1,5 @@
 name:                hspec-expectations-lens
-version:             0.2.1.1
+version:             0.3.0.0
 synopsis:            Hspec expectations for the lens stuff
 description:
   Package adds hspec expectations (@\`shouldX\`@ things)
@@ -22,7 +22,7 @@ source-repository head
 
 source-repository this
   type:     git
-  tag:      0.2.1.1
+  tag:      0.3.0.0
   location: https://github.com/supki/hspec-expectations-lens
 
 library
