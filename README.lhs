@@ -1,7 +1,7 @@
 hspec-expectations-lens
 =======================
-[![Hackage](https://budueba.com/hackage/hspec-expectations-lens)](http://hackage.haskell.org/package/hspec-expectations-lens)
-[![Build Status](https://secure.travis-ci.org/supki/hspec-expectations-lens.png?branch=master)](http://travis-ci.org/supki/hspec-expectations-lens)
+[![Hackage](https://budueba.com/hackage/hspec-expectations-lens)](https://hackage.haskell.org/package/hspec-expectations-lens)
+[![Build Status](https://secure.travis-ci.org/supki/hspec-expectations-lens.png?branch=master)](https://travis-ci.org/supki/hspec-expectations-lens)
 
 hspec-expectations-lens is a set of expectations for [Hspec][hspec]
 with a [lens][lens]-compatible interface
