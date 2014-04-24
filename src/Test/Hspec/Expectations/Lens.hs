@@ -121,12 +121,12 @@ shouldList :: (Show s, Show a, Eq a) => s -> [a] -> Getting (Endo [a]) s a -> Ex
 -- only allows @e -> Bool@ selectors, which is less general and often less convenient
 --
 -- @
--- shouldThrow :: 'IO' a -> 'Getter'     s b -> 'Expectation'
--- shouldThrow :: 'IO' a -> 'Fold'       s b -> 'Expectation'
--- shouldThrow :: 'IO' a -> 'Lens''      s b -> 'Expectation'
--- shouldThrow :: 'IO' a -> 'Iso''       s b -> 'Expectation'
--- shouldThrow :: 'IO' a -> 'Traversal'' s b -> 'Expectation'
--- shouldThrow :: 'IO' a -> 'Prism''     s b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Getter'     'SomeException' b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Fold'       'SomeException' b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Lens''      'SomeException' b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Iso''       'SomeException' b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Traversal'' 'SomeException' b -> 'Expectation'
+-- shouldThrow :: 'IO' a -> 'Prism''     'SomeException' b -> 'Expectation'
 -- @
 shouldThrow :: IO a -> Getting (First b) SomeException b -> Expectation
 x `shouldThrow` l = do
