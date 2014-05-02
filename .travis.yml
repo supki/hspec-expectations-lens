@@ -2,7 +2,4 @@ language: haskell
 
 ghc:
     - 7.8
-    - 7.6
-
-before_install:
-    - cabal install cpphs
+     7.6
