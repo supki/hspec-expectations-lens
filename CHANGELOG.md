@@ -1,3 +1,8 @@
+0.4.0
+=======
+
+  * Reflect API changes in `lens-4.7`
+
 0.3.0.0
 =======
 
