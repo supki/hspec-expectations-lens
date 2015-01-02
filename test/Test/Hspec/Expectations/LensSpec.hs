@@ -135,7 +135,7 @@ spec = do
 
 shouldResultIn :: Expectation -> String -> IO ()
 shouldResultIn expectation result = do
-  r <- fmap (last . lines) . capture_ . hspecWith defaultConfig $
+  r <- fmap (last . lines) . capture_ . hspecWithResult defaultConfig $
     it "" expectation
   r `shouldBe` result
 

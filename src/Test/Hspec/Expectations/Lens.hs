@@ -151,7 +151,7 @@ shouldPerform :: (Show a, Eq a) => IO s -> a -> Acting IO (Leftmost a) s a -> Ex
     Just r' -> unless (r' == t) $
       assertFailure (printf "Resulted in %s, but expected %s" (show r') (show t))
 
--- | A helper to fight parentheses
+-- | `through` fights parentheses
 --
 -- @
 -- through ≡ id

@@ -31,7 +31,7 @@ library
   build-depends:
       base                    == 4.*
     , hspec-expectations      >= 0.5
-    , hspec                   >= 1.8
+    , hspec                   >= 1.12
     , lens                    >= 4.0.1
     , HUnit
   exposed-modules:
