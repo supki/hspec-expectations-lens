@@ -50,6 +50,8 @@ test-suite spec
     test
   main-is:
     Spec.hs
+  other-modules:
+    Test.Hspec.Expectations.LensSpec
   build-depends:
       base                    == 4.*
     , hspec
