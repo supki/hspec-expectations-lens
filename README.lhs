@@ -1,7 +1,5 @@
 hspec-expectations-lens
 =======================
-[![Hackage](https://budueba.com/hackage/hspec-expectations-lens)](https://hackage.haskell.org/package/hspec-expectations-lens)
-[![Build Status](https://secure.travis-ci.org/supki/hspec-expectations-lens.png?branch=master)](https://travis-ci.org/supki/hspec-expectations-lens)
 
 hspec-expectations-lens is a set of expectations for [Hspec][hspec]
 with a [lens][lens]-compatible interface
@@ -51,7 +49,6 @@ We start with pragmas, module declaration, and imports we use later.
 > module Main (main) where
 >
 > import Control.Lens
-> import Data.List.Lens
 > import Control.Exception (evaluate)
 > import Control.Exception.Lens (_ErrorCall, _DivideByZero)
 > import Test.Hspec.Lens
@@ -122,12 +119,6 @@ for the target type (and it better have one):
 >   describe "shouldPreview" $
 >     it "gets the first target" $
 >       [1..10] `shouldPreview` 10 `through` reversed.folded
-
-`shouldPerform` performs the action and looks into the first target of the result.
-
->   describe "shouldPerform" $
->     it "performs an action and gets the first target" $
->       readFile "README.lhs" `shouldPerform` 99 `through` to lines.folded.prefixed ">".to length
 
 The last combinator, which does not really belong to any of the previous groups,
 is `shouldThrow`. It uses composable selectors to determine which

@@ -12,7 +12,8 @@ maintainer:          matvey.aksenov@gmail.com
 category:            Testing
 build-type:          Simple
 extra-source-files:
-  CHANGELOG.md
+  CHANGELOG.markdown
+  README.markdown
   README.lhs
 cabal-version:       >= 1.10
 
