@@ -7,7 +7,6 @@ module Test.Hspec.Expectations.Lens
   , shouldPreview
   , shouldList
   , shouldThrow
-  , shouldPerform
   , through
   ) where
 
@@ -24,7 +23,6 @@ import Text.Printf (printf)
 infixl 1 `shouldHave`, `shouldNotHave`
 infixl 1 `shouldView`, `shouldPreview`, `shouldList`
 infixl 1 `shouldThrow`
-infixl 1 `shouldPerform`
 infixl 1 `through`
 
 -- | @s \`shouldHave\` l@ sets the expectation that 'Fold' @l@ has
@@ -134,22 +132,6 @@ x `shouldThrow` l = do
   case r of
     Left  _ -> return ()
     Right _ -> assertFailure "Couldn't catch any exceptions"
-
--- | @a \`shouldPerform\` t \`through\` l@ sets the expectation that @t@ is
--- a target of the 'MonadicFold' @l@ applied to the result of action @a@
---
--- @
--- shouldPerform :: ('Show' a, 'Eq' a) => 'IO' s -> a -> 'Action'      'IO' s a -> 'Expectation'
--- shouldPerform :: ('Show' a, 'Eq' a) => 'IO' s -> a -> 'MonadicFold' 'IO' s a -> 'Expectation'
--- @
-shouldPerform :: (Show a, Eq a) => IO s -> a -> Acting IO (Leftmost a) s a -> Expectation
-(x `shouldPerform` t) l = do
-  r <- x ^!? acts.l
-  case r of
-    Nothing ->
-      assertFailure (printf "No targets, but expected %s" (show t))
-    Just r' -> unless (r' == t) $
-      assertFailure (printf "Resulted in %s, but expected %s" (show r') (show t))
 
 -- | `through` fights parentheses
 --
